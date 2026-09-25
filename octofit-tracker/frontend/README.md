@@ -1,16 +1,30 @@
-# React + Vite
+# OctoFit Tracker Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+This Vite app powers the presentation tier for the OctoFit Tracker multi-tier application.
 
-Currently, two official plugins are available:
+## Environment configuration
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+The frontend must know the current GitHub Codespace name so it can call the backend at the correct GitHub.dev URL.
 
-## React Compiler
+Create a `.env.local` file in this directory with:
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+VITE_CODESPACE_NAME=your-codespace-name
+```
 
-## Expanding the Oxlint configuration
+If `VITE_CODESPACE_NAME` is left blank or undefined, the app falls back to `http://localhost:8000` for local development instead of building a broken `https://undefined-8000.app.github.dev` URL.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+## Local development
+
+```bash
+npm install
+npm run dev
+```
+
+The app will call backend endpoints using:
+
+```text
+https://${VITE_CODESPACE_NAME}-8000.app.github.dev/api/[component]/
+```
+
+when running in GitHub Codespaces, or fall back to the local backend URL during local development.

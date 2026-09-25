@@ -1,4 +1,9 @@
 import { NavLink, Route, Routes } from 'react-router-dom'
+import Activities from './components/Activities'
+import Leaderboard from './components/Leaderboard'
+import Teams from './components/Teams'
+import Users from './components/Users'
+import Workouts from './components/Workouts'
 
 function StatsCard({ label, value }) {
   return (
@@ -14,6 +19,8 @@ function StatsCard({ label, value }) {
 }
 
 function HomePage() {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME
+
   return (
     <>
       <div className="bg-primary-subtle rounded-4 p-4 mb-4">
@@ -21,6 +28,14 @@ function HomePage() {
         <p className="lead mb-0">
           Track workouts, manage teams, and keep your fitness goals on pace.
         </p>
+        <div className="mt-3 small text-muted">
+          API target:{' '}
+          <code>
+            {codespaceName
+              ? `https://${codespaceName}-8000.app.github.dev/api/`
+              : 'http://localhost:8000/api/'}
+          </code>
+        </div>
       </div>
 
       <div className="row">
@@ -32,56 +47,14 @@ function HomePage() {
   )
 }
 
-function LeaderboardPage() {
-  return (
-    <div className="card border-0 shadow-sm">
-      <div className="card-body">
-        <h2 className="mb-3">Leaderboard</h2>
-        <ul className="list-group list-group-flush">
-          {['Ava', 'Marcus', 'Priya', 'Leah', 'Jordan'].map((name, index) => (
-            <li key={name} className="list-group-item d-flex justify-content-between align-items-center">
-              <span>
-                <span className="fw-semibold me-3">#{index + 1}</span>
-                {name}
-              </span>
-              <span className="badge bg-dark rounded-pill">{120 - index * 12} pts</span>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  )
-}
-
-function TeamsPage() {
-  return (
-    <div className="card border-0 shadow-sm">
-      <div className="card-body">
-        <h2 className="mb-3">Teams</h2>
-        <div className="row g-3">
-          {[
-            ['Momentum Crew', '12 members'],
-            ['Iron Circuit', '9 members'],
-            ['Trail Blazers', '14 members'],
-          ].map(([name, members]) => (
-            <div key={name} className="col-md-4">
-              <div className="border rounded-3 p-3 h-100">
-                <h5>{name}</h5>
-                <p className="text-muted mb-0">{members}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function App() {
   const navItems = [
     { to: '/', label: 'Home' },
     { to: '/leaderboard', label: 'Leaderboard' },
     { to: '/teams', label: 'Teams' },
+    { to: '/users', label: 'Users' },
+    { to: '/activities', label: 'Activities' },
+    { to: '/workouts', label: 'Workouts' },
   ]
 
   return (
@@ -89,7 +62,7 @@ function App() {
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <span className="navbar-brand fw-bold">OctoFit Tracker</span>
-          <div className="navbar-nav ms-auto">
+          <div className="navbar-nav ms-auto flex-wrap gap-2">
             {navItems.map(({ to, label }) => (
               <NavLink
                 key={to}
@@ -106,8 +79,11 @@ function App() {
       <main className="container py-4">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/leaderboard" element={<LeaderboardPage />} />
-          <Route path="/teams" element={<TeamsPage />} />
+          <Route path="/leaderboard" element={<Leaderboard />} />
+          <Route path="/teams" element={<Teams />} />
+          <Route path="/users" element={<Users />} />
+          <Route path="/activities" element={<Activities />} />
+          <Route path="/workouts" element={<Workouts />} />
         </Routes>
       </main>
     </div>
